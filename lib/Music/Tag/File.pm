@@ -1,18 +1,22 @@
 package Music::Tag::File;
-our $VERSION = 0.29;
+our $VERSION = 0.30;
 
 # Copyright (c) 2007 Edward Allen III. Some rights reserved.
+
 #
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the Artistic License, distributed
-## with Perl.
+# You may distribute under the terms of either the GNU General Public
+# License or the Artistic License, as specified in the README file.
 #
 
 =pod
 
+=for changes stop
+
 =head1 NAME
 
 Music::Tag::File - Plugin module for Music::Tag to get information from filename and directory entries. 
+
+=for readme stop
 
 =head1 SYNOPSIS
 
@@ -28,21 +32,52 @@ Music::Tag::File - Plugin module for Music::Tag to get information from filename
 	# Following prints "artist"
 	print "Artist is ", $info->artist;
 
+=for readme continue
+
 =head1 DESCRIPTION
 
-Music::Tag::File is used to guess information about a music file from its filename, directory name, or contents of the directory it resides in.
+Music::Tag::File is a Music::Tag plugin used to guess information about a music file from its filename, directory name, or contents of the directory it resides in.
 
 This plugin will not overwrite values found by other plugins.
 
-=head1 REQUIRED VALUES
+Music::Tag::File objects must be created by Music::Tag.
+
+=begin readme
+
+=head1 INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+=head1 DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+   Music::Tag
+   File::Spec
+
+=head1 TEST FILES
+
+Included test files are based on the sample file for Audio::M4P.  For testing only.
+
+=end readme
+
+=for readme stop
+
+=head1 REQUIRED DATA VALUES
 
 No values are required (except filename, which is usually provided on object creation). 
 
-=head1 SET VALUES
+=head1 SET DATA VALUES
 
 =cut
 
 use strict;
+use warnings;
 use File::Spec;
 
 #use Image::Magick;
@@ -54,17 +89,17 @@ our @ISA = qw(Music::Tag::Generic);
 
 Derived from directory file is in.
 
-=item aritst
+=item artist
 
 Derived from parent directory of directory file is in.
 
 =item tracknum
 
-Derived from first number(s) found in file.
+Derived from first number(s) found in file name.
 
 =item track
 
-From file with initial numbers removed.
+Derived from filename with initial numbers removed.
 
 =item disc
 
@@ -369,15 +404,65 @@ Save cover picture to disk.
 
 =back
 
-
 =head1 BUGS
 
-This method is always unreliable unless great care is taken in file naming. 
+This method of determining information about a music file is always unreliable unless great care is taken in file naming.
 
 =head1 SEE ALSO
 
-L<Music::Tag>, L<Music::Tag::Amazon>, L<Music::Tag::FLAC>, L<Music::Tag::Lyrics>,
-L<Music::Tag::M4A>, L<Music::Tag::MP3>, L<Music::Tag::MusicBrainz>, L<Music::Tag::OGG>, L<Music::Tag::Option>,
+L<Music::Tag>
+
+=head1 CHANGES
+
+=for changes continue
+
+=over 4
+
+=item Release Name: 0.30
+
+=over 4
+
+=item *
+
+Changed license to allow option of GPL
+
+=item *
+
+Started using Pod::Readme
+
+=back
+
+=begin changes
+
+=item Release Name: 0.29
+
+=over 4
+
+=item * 
+
+Kwalitee Changes
+
+=item * 
+
+Added no_savecover and no_savelyrics
+
+=back
+
+=item Release Name: 0.28
+
+=over 4
+
+=item * Split off from Music::Tag distribution
+
+=back
+
+=end changes
+
+=back
+
+=for changes stop
+
+=for readme continue
 
 =head1 AUTHOR 
 
@@ -387,10 +472,30 @@ Edward Allen III <ealleniii _at_ cpan _dot_ org>
 
 Copyright (c) 2007 Edward Allen III. Some rights reserved.
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the Artistic License, distributed
-with Perl.
+=head1 LICENSE
 
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either:
+
+a) the GNU General Public License as published by the Free
+Software Foundation; either version 1, or (at your option) any
+later version, or
+
+b) the "Artistic License" which comes with Perl.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See either
+the GNU General Public License or the Artistic License for more details.
+
+You should have received a copy of the Artistic License with this
+Kit, in the file named "Artistic".  If not, I'll be glad to provide one.
+
+You should also have received a copy of the GNU General Public License
+along with this program in the file named "Copying". If not, write to the
+Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA or visit their web page on the Internet at
+http://www.gnu.org/copyleft/gpl.html.
 
 =cut
 

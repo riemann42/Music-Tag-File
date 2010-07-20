@@ -1,0 +1,17 @@
+--- #YAML:1.0
+name:                Music-Tag-File
+version:             0.29
+abstract:            Plugin module for Music::Tag to get information from filename and directory entries. 
+license:             perl
+author:              
+    - Edward Allen (ealleniii _at_ cpan _dot_ org)
+generated_by:        ExtUtils::MakeMaker version 6.42
+distribution_type:   module
+requires:     
+    File::Copy:                    0
+    File::Spec:                    3.24
+    Music::Tag:                    0.27
+    Test::More:                    0
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.3.html
+    version: 1.3

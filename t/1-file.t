@@ -1,28 +1,30 @@
 #!/usr/bin/perl -w
 use strict;
-
-use Test::More tests => 7;
+use Test::More tests => 17;
+use lib 't';
+use MusicTagTest;
 use 5.006;
 
 BEGIN { use_ok('Music::Tag') }
 
-our $options = {};
+my $c = filetest('t/Beethoven/GPL/elise.mp3', 't/Beethoven/GPL/elisetest.mp3', {quiet => 1, verbose =>0},{
+	values_in => {
+        artist =>, 'Beethoven', 
+		album => 'GPL',
+		title => 'elisetest',
+	},
+	skip_write_tests => 0,
+	picture_in => 1,
+	picture_file => 'beethoven.jpg',
+	picture_sha1 => 'b2bf4b2f71bf01e12473dd0ebe295777127589f4',
+	picture_read => 1,
+	count => 14,
+	plugin => 'File'
+});
+print STDERR "$c test\n";
 
-my $file        = "t/Beethoven/GPL/elise.mp3";
-
-SKIP: {
-	skip "File: $file does not exists", 7 unless ( -f $file );
-	return unless ( -f $file );
-	my $tag = Music::Tag->new( $file, {}, 'File' );
-	ok( $tag, 'Object created: ' . $file );
-	die unless $tag;
-	ok( $tag->get_tag, 'get_tag called: ' . $file );
-	ok( $tag->isa('Music::Tag'), 'Correct Class: ' . $file );
-	is( $tag->artist, "Beethoven", 'Artist: ' . $file );
-	is( $tag->album,  "GPL",       'Album: ' . $file );
-	is( $tag->title,  "elise",     'Title: ' . $file );
-	$tag->close();
-	$tag = undef;
+if ( -e 't/Beethoven/GPL/folder.jpg') {
+	unlink 't/Beethoven/GPL/folder.jpg';
 }
 
 

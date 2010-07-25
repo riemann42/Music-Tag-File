@@ -81,7 +81,7 @@ use warnings;
 use File::Spec;
 
 #use Image::Magick;
-our @ISA = qw(Music::Tag::Generic);
+use base qw(Music::Tag::Generic);
 
 =over 4
 
@@ -227,7 +227,7 @@ sub get_tag {
 				#}
 		#}
 		if ($f =~ /\.jpg$/i) {
-			unless ($self->info->picture) {
+			unless ($self->info->picture_exists) {
 				$self->tagchange( "COVER ART", "from $f" );
 				$self->info->picture( $self->_cover_art($fname) );
 			}
@@ -296,7 +296,7 @@ sub save_cover {
         }
         $self->status("Saving cover image to $filename");
         unless ( open OUT, ">$filename" ) {
-            $self->status("Error writing to $filename: $!, skipping.");
+            $self->error("Error writing to $filename: $!, skipping.");
             return undef;
         }
         my $b = 0;

@@ -1,4 +1,6 @@
 package Music::Tag::File;
+use strict;
+use warnings;
 our $VERSION = 0.30;
 
 # Copyright (c) 2007 Edward Allen III. Some rights reserved.
@@ -8,8 +10,7 @@ our $VERSION = 0.30;
 # License or the Artistic License, as specified in the README file.
 #
 
-use strict;
-use warnings;
+
 use File::Spec;
 
 #use Image::Magick;
@@ -415,7 +416,7 @@ L<Music::Tag>
 
 Source is available at github: L<http://github.com/riemann42/Music-Tag-File|http://github.com/riemann42/Music-Tag-File>.
 
-=head1 BUGTRACKING
+=head1 BUG TRACKING
 
 Please use github for bug tracking: L<http://github.com/riemann42/Music-Tag-File/issues|http://github.com/riemann42/Music-Tag-File/issues>.
 

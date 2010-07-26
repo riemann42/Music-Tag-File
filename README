@@ -29,6 +29,14 @@ TEST FILES
     Included test files are based on the sample file for Audio::M4P. For
     testing only.
 
+SOURCE
+    Source is available at github at
+    http://github.com/riemann42/Music-Tag-File.
+
+BUGTRACKING
+    Please use github for bug tracking at
+    http://github.com/riemann42/Music-Tag-File/issues.
+
 AUTHOR
     Edward Allen III <ealleniii _at_ cpan _dot_ org>
 

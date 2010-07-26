@@ -16,6 +16,13 @@ use File::Spec;
 #use Image::Magick;
 use base qw(Music::Tag::Generic);
 
+sub set_values {
+	return qw( picture artist album title booklet lyrics track disc);
+}
+
+sub saved_values {
+	return qw( picture booklet lyrics );
+}
 
 sub get_tag {
     my $self     = shift;
@@ -382,23 +389,31 @@ If true will not save cover.
 
 =over
 
-=item default_options
+=item B<default_options()>
 
 Returns the default options for the plugin.  
 
-=item set_tag
+=item B<set_tag()>
 
 Saves info such as image files, lyrics, etc. Note: Currently calls save_lyrics method for all files that do not end in .mp3 unless np_savelyrics is set.
 
-=item get_tag
+=item B<get_tag()>
 
 Gathers info from file name, text files, etc.
 
-=item save_lyrics
+=item B<set_values()>
+
+A list of values that can be set by this module.
+
+=item B<saved_values()>
+
+A list of values that can be saved by this module.
+
+=item B<save_lyrics()>
 
 Save lyrics to a text file. 
 
-=item save_cover
+=item B<save_cover()>
 
 Save cover picture to disk. 
 

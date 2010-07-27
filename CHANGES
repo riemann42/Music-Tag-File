@@ -1,3 +1,13 @@
+CHANGES
+	Release Name: 0.40_01
+		*	Started using git and github
+
+		*	Normalized version accross plugins.
+
+		*	POD Changes
+
+		*	Revised Testing
+
     Release Name: 0.30
         *   Changed license to allow option of GPL
 

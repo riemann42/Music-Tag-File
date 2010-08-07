@@ -17,7 +17,7 @@ use File::Spec;
 use base qw(Music::Tag::Generic);
 
 sub set_values {
-	return qw( picture artist album title booklet lyrics track disc);
+	return qw( picture artist album title booklet lyrics track discnum);
 }
 
 sub saved_values {
@@ -75,7 +75,7 @@ sub get_tag {
         $self->tagchange("ALBUM");
     }
     unless ( $self->info->disc ) {
-        $self->info->disc("1/1");
+        $self->info->discnum("1/1");
         $self->tagchange("DISC");
     }
 

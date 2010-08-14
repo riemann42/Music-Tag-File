@@ -26,7 +26,7 @@ sub saved_values {
 
 sub get_tag {
     my $self     = shift;
-    my $filename = $self->info->filename();
+    my $filename = $self->info->get_data('filename');
     my @dirs     = File::Spec->splitdir( File::Spec->rel2abs($filename) );
     my $fname    = pop @dirs;
     my $dname    = File::Spec->catdir(@dirs);
@@ -46,58 +46,58 @@ sub get_tag {
     $artist =~ s/\b(\w)/uc($1)/ge;
     $artist =~ s/ *$//g;
     $artist =~ s/ *$//g;
-    unless ( $self->info->track ) {
+    unless ( $self->info->has_data('track') ) {
         if ( $fname =~ /^[^\d]*(\d+)[^\d]/ ) {
             my $num = sprintf( "%d", $1 );
-            $self->info->track($num);
+            $self->info->set_data('track',$num);
             $self->tagchange("TRACK");
         }
         else {
-            $self->info->track(0);
+            $self->info->set_data('track',0);
             $self->tagchange("TRACK");
         }
     }
-    unless ( $self->info->title ) {
+    unless ( $self->info->has_data('title') ) {
         my $title = $fname;
         $title =~ s/\..+$//g;
         $title =~ s/^\d+\.?\ +//g;
         $title =~ s/^ *//g;
         $title =~ s/ *$//g;
-        $self->info->title($title);
+        $self->info->set_data('title',$title);
         $self->tagchange("TITLE");
     }
-    unless ( $self->info->artist ) {
-        $self->info->artist($artist);
+    unless ( $self->info->has_data('artist') ) {
+        $self->info->set_data('artist',$artist);
         $self->tagchange("ARTIST");
     }
-    unless ( $self->info->album ) {
-        $self->info->album($album);
+    unless ( $self->info->has_data('album') ) {
+        $self->info->set_data('album',$album);
         $self->tagchange("ALBUM");
     }
-    unless ( $self->info->disc ) {
-        $self->info->discnum("1/1");
+    unless ( $self->info->has_data('disc') ) {
+        $self->info->set_data('discnum',"1/1");
         $self->tagchange("DISC");
     }
 
-    if ( ( not $self->info->picture ) or ( $self->options->{coveroverwrite} ) ) {
+    if ( ( not $self->info->has_data('picture') ) or ( $self->options->{coveroverwrite} ) ) {
         my $fname    = File::Spec->catdir($dname, "folder.jpg");
         my $pfname    = File::Spec->catdir($dname, "folder.png");
         my $cfname    = File::Spec->catdir($dname, "cover.jpg");
         if ( -e $fname ) {
             $self->tagchange( "COVER ART", "from folder.jpg" );
-            $self->info->picture( $self->_cover_art($fname) );
+            $self->info->set_data('picture', $self->_cover_art($fname) );
         }
         elsif ( -e $pfname ) {
             $self->tagchange( "COVER ART", "from folder.png" );
-            $self->info->picture( $self->_cover_art($pfname) );
+            $self->info->set_data('picture', $self->_cover_art($pfname) );
         }
         elsif ( -e $cfname ) {
             $self->tagchange( "COVER ART", "from cover.jpg" );
-            $self->info->picture( $self->_cover_art($cfname) );
+            $self->info->set_data('picture', $self->_cover_art($cfname) );
         }
 
     }
-    if (    ( not $self->info->lyrics )
+    if (    ( not $self->info->has_data('lyrics') )
          or ( $self->options->{lyricsoverwrite} )
          or ( length( $self->info->lyrics ) < 10 ) ) {
         my $fname = $self->info->filename;
@@ -105,7 +105,7 @@ sub get_tag {
         if ( -e "$fname" ) {
             $self->tagchange( "LYRICS", "from $fname" );
 			my $l = $self->_slurp_file($fname);
-            $self->info->lyrics($l);
+            $self->info->set_data('lyrics',$l);
             $l =~ s/\n\r?/ \/ /g;
             $self->tagchange( "LYRICS", substr( $l, 0, 40 ) );
         }
@@ -116,24 +116,24 @@ sub get_tag {
 		next if $f =~ /^\./;
         my $fname    = File::Spec->catdir($dname, $f);
 		if ($f =~ /\.pdf$/i) {
-			unless ($self->info->booklet) {
+			unless ($self->info->has_data('booklet')) {
 				$self->tagchange( "BOOKLET", "from $f" );
-				$self->info->booklet($f);
+				$self->info->set_data('booklet',$f);
 			}
 		}
 		#if ($f =~ /\.txt$/i) {
-			#unless ($self->info->lyrics) {
+			#unless ($self->info->has_data('lyrics')) {
 				#$self->tagchange( "LYRICS", "from $fname" );
 				#my $l = $self->_slurp_file($fname);
-				#$self->info->lyrics($l);
+				#$self->info->set_data('lyrics',$l);
 				#$l =~ s/\n\r?/ \/ /g;
 				#$self->tagchange( "LYRICS", substr( $l, 0, 40 ) );
 				#}
 		#}
 		if ($f =~ /\.jpg$/i) {
-			unless ($self->info->picture_exists) {
+			unless ($self->info->has_data('picture')) {
 				$self->tagchange( "COVER ART", "from $f" );
-				$self->info->picture( $self->_cover_art($fname) );
+				$self->info->set_data('picture', $self->_cover_art($fname) );
 			}
 		}
 	}
@@ -185,11 +185,11 @@ sub _cover_art {
 
 sub save_cover {
     my $self = shift;
-    my ( $vol, $dir, $file ) = File::Spec->splitpath( $self->info->filename );
+    my ( $vol, $dir, $file ) = File::Spec->splitpath( $self->info->get_data('filename') );
     my $filename = File::Spec->catpath( $vol, $dir, "folder.jpg" );
 
     #if ($dname eq "/") { $dname = "" } else {$dname = File::Spec->catpath($vol, $dir) }
-    my $art = $self->info->picture;
+    my $art = $self->info->get_data('picture');
     if ( exists $art->{_Data} ) {
         local *OUT;
         if ( $art->{"MIME type"} eq "image/png" ) {
@@ -222,9 +222,9 @@ sub save_cover {
 
 sub save_lyrics {
     my $self  = shift;
-    my $fname = $self->info->filename;
+    my $fname = $self->info->get_data('filename');
     $fname =~ s/\.[^\.]*$/.txt/;
-    my $lyrics = $self->info->lyrics;
+    my $lyrics = $self->info->get_data('lyrics');
     if ($lyrics) {
         local *OUT;
         $self->status("Saving lyrics image to $fname");
@@ -243,7 +243,7 @@ sub set_tag {
 	unless ( $self->options("no_savecover")) {
 		$self->save_cover( $self->info );
 	}
-    unless ( $self->options("no_savelyrics") or $self->info->filename =~ /\.mp3$/i ) {
+    unless ( $self->options("no_savelyrics") or $self->info->get_data('filename') =~ /\.mp3$/i ) {
         $self->save_lyrics( $self->info );
     }
     return $self;

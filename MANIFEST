@@ -12,4 +12,3 @@ t/2-pod.t
 t/3-pod-coverage.t
 t/Beethoven/GPL/beethoven.jpg
 t/Beethoven/GPL/elise.mp3
-t/MusicTagTest.pm

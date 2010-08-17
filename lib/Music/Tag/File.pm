@@ -1,19 +1,13 @@
 package Music::Tag::File;
-use strict;
-use warnings;
-our $VERSION = .40_01;
+use strict; use warnings; use utf8;
+our $VERSION = '.4101';
 
-# Copyright (c) 2007 Edward Allen III. Some rights reserved.
-
+# Copyright © 2007,2010 Edward Allen III. Some rights reserved.
 #
 # You may distribute under the terms of either the GNU General Public
 # License or the Artistic License, as specified in the README file.
-#
-
 
 use File::Spec;
-
-#use Image::Magick;
 use base qw(Music::Tag::Generic);
 
 sub set_values {
@@ -423,6 +417,8 @@ Save cover picture to disk.
 
 This method of determining information about a music file is always unreliable unless great care is taken in file naming.
 
+Please use github for bug tracking: L<http://github.com/riemann42/Music-Tag-File/issues|http://github.com/riemann42/Music-Tag-File/issues>.
+
 =head1 SEE ALSO
 
 L<Music::Tag>
@@ -431,17 +427,13 @@ L<Music::Tag>
 
 Source is available at github: L<http://github.com/riemann42/Music-Tag-File|http://github.com/riemann42/Music-Tag-File>.
 
-=head1 BUG TRACKING
-
-Please use github for bug tracking: L<http://github.com/riemann42/Music-Tag-File/issues|http://github.com/riemann42/Music-Tag-File/issues>.
-
 =head1 AUTHOR 
 
 Edward Allen III <ealleniii _at_ cpan _dot_ org>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2007 Edward Allen III. Some rights reserved.
+Copyright © 2007,2010 Edward Allen III. Some rights reserved.
 
 =head1 LICENSE
 
